@@ -1,5 +1,7 @@
 import React from "react";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCartAction, calculate } from "../Redux/slice";
 
 const Home = () => {
 	const productList = [
@@ -19,8 +21,12 @@ const Home = () => {
 		},
 	];
 
-	const addToCartHanlder = (options) => {
-		console.log(options);
+	const dispatch = useDispatch();
+	const { cartItem } = useSelector((state) => state.cart);
+
+	const addToCartHandler = (options) => {
+		dispatch(addToCartAction(options));
+		dispatch(calculate());
 		toast.success("Added to Cart");
 	};
 
@@ -33,7 +39,7 @@ const Home = () => {
 					imglink={value.imglink}
 					title={value.title}
 					price={value.price}
-					handler={addToCartHanlder}
+					handler={addToCartHandler}
 				/>
 			))}
 		</div>
